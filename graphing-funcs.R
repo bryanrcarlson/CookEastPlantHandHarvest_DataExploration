@@ -24,12 +24,6 @@ map_yield <- function(d, area.harvested, boundary, strips, crop.name = "") {
   # Append a column with per area yield
   d['Yield'] <- d$GrainWeightWet / area.harvested
   
-  # Print shapefile info
-  #ogrInfo(polygon.shpdir, polygon.shpname)
-  
-  # Read boundary shapefile
-  #boundary <- readOGR(polygon.shpdir, polygon.shpname)
-  
   # Convert csv gain mass data to spatial points and specify the datum
   dsp <- SpatialPoints(d[,6:5], proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   dsp <- SpatialPointsDataFrame(dsp, d)
