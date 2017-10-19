@@ -59,7 +59,7 @@ map_yield <- function(d, area.harvested, boundary, strips, harvest.year, crop.na
   
   # Print legend
   legend(x="topright", legend = levels(dta$Crop), col=c("white", "chartreuse", "blue", "yellow", "red", "green", "sandybrown"), pch=1)
-  title(paste("Cook East yield for HY", harvest.year))
+  title(paste("Cook East", crop.name, "Yield for HY", harvest.year))
   mtext(paste("Area harvested = ", toString(area.harvested), ", Crop = ", crop.name, " units = g/m2"))
 }
 
