@@ -5,6 +5,7 @@
 # Set WD, define constants
 setwd("C:\\OneDrive\\OneDrive - Washington State University (email.wsu.edu)\\Projects\\CookEastPlantHandHarvest\\1999-2016\\Working\\R")
 area.harvested <- 2.4384
+harvest.year <- 2015
 source("graphing-funcs.R")
 
 # Read input data
@@ -16,25 +17,25 @@ d <- read.csv("Input/HY2015GP_GrainWeightOnly_171018.csv", stringsAsFactors = TR
 georef.only <- raster::intersect(boundary, strips)
 
 #GB
-a.strips <- NULL
-b.strips <- c(6)
-c.strips <- c(1,4,5,6,7,8)
-map_yield(d, area.harvested, georef.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georef.only), 2015, "GB")
+map_yield(d, area.harvested, georef.only, 
+          extract_georef_field_and_strip(NULL, c(6), c(1,4,5,6,7,8), georef.only), 
+          harvest.year, "GB")
 
 #SB
-a.strips <- NULL
-b.strips <- c(5)
-c.strips <- NULL
-map_yield(d,  area.harvested, georef.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georef.only), 2015, "SB")
+map_yield(d,  area.harvested, georef.only, 
+          extract_georef_field_and_strip(NULL, c(5), NULL, georef.only), 
+          harvest.year, "SB")
 
 #SW
-a.strips <- NULL
-b.strips <- NULL
-c.strips <- c(3)
-map_yield(d, area.harvested, georef.only,extract_georef_field_and_strip(a.strips, b.strips, c.strips, georef.only), 2015, "SW")
+map_yield(d, area.harvested, georef.only,
+          extract_georef_field_and_strip(NULL, NULL, c(3), georef.only), 
+          harvest.year, "SW")
 
 #WW
-a.strips <- c(1,2,3,4,5,6)
-b.strips <- c(4)
-c.strips <- NULL
-map_yield(d, area.harvested, georef.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georef.only), 2015, "WW")
+map_yield(d, area.harvested, georef.only, 
+          extract_georef_field_and_strip(c(1,2,3,4,5,6), c(4), NULL, georef.only), 
+          harvest.year, "WW")
+
+map_yield(d, area.harvested, georef.only, 
+          extract_georef_field_and_strip(NULL, c(1,2,3), c(2), georef.only), 
+          harvest.year, "SC")
