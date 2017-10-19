@@ -12,8 +12,9 @@ library(gstat)
 #' @param area.harvested A number for the area harvested in m2, grain mass will be divided by this number to get mass/area
 #' @param boundary A SpatialPolygonsDataFrame of the boundary to be analyzed
 #' @param strips A SpatialPolygonsDataFrame that is composed of one or more strips of which the crops reside
+#' @param harvest.year Int that for the harvest year that the data are for
 #' @param crop.name Optional param, if specified the single crop will be displayed
-map_yield <- function(d, area.harvested, boundary, strips, crop.name = "") {
+map_yield <- function(d, area.harvested, boundary, strips, harvest.year, crop.name = "") {
   # Clean data
   d <- d[!(is.na(d$GrainWeightWet) | d$GrainWeightWet==""), ]
   if(crop.name != "" && crop.name %in% d$Crop)
@@ -58,7 +59,7 @@ map_yield <- function(d, area.harvested, boundary, strips, crop.name = "") {
   
   # Print legend
   legend(x="topright", legend = levels(dta$Crop), col=c("white", "chartreuse", "blue", "yellow", "red", "green", "sandybrown"), pch=1)
-  title("Cook East yield for HY2013")
+  title(paste("Cook East yield for HY", harvest.year))
   mtext(paste("Area harvested = ", toString(area.harvested), ", Crop = ", crop.name, " units = g/m2"))
 }
 

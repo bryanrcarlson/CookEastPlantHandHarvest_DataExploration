@@ -19,22 +19,22 @@ georeff.only <- raster::intersect(boundary, strips)
 a.strips <- c(5)
 b.strips <- c(1,2,3,4)
 c.strips <- NULL
-map_yield(d, area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), "GB")
+map_yield(d, area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), 2013, "GB")
 
 #SB
 a.strips <- c(6)
 b.strips <- NULL
 c.strips <- NULL
-map_yield(d,  area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), "SB")
+map_yield(d,  area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), 2013, "SB")
 
 #SW
 a.strips <- c(2,3,4)
 b.strips <- c(5, 6)
 c.strips <- NULL
-map_yield(d, area.harvested, georeff.only,extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), "SW")
+map_yield(d, area.harvested, georeff.only,extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), 2013, "SW")
 
 #WW
 a.strips <- c(1)
 b.strips <- NULL
 c.strips <- c(1, 2, 3, 4, 5, 6, 7, 7, 8)
-map_yield(d, area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), "WW")
+map_yield(d, area.harvested, georeff.only, extract_georef_field_and_strip(a.strips, b.strips, c.strips, georeff.only), 2013, "WW")
