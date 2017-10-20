@@ -8,15 +8,16 @@ library(dismo)
 library(gstat)
 
 #' Creates a IDW map of yield values from grain weight
-#' @param d A dataframe with grain mass data in WGS84 datum and columns: FieldID	Column	Row2	ID2	Latitude	Longitude	Year	SampleID	Crop	GrainWeightWet
+#' @param data A dataframe with grain mass data in WGS84 datum and columns: FieldID	Column	Row2	ID2	Latitude	Longitude	Year	SampleID	Crop	GrainWeightWet
 #' @param area.harvested A number for the area harvested in m2, grain mass will be divided by this number to get mass/area
 #' @param boundary A SpatialPolygonsDataFrame of the boundary to be analyzed
 #' @param strips A SpatialPolygonsDataFrame that is composed of one or more strips of which the crops reside
 #' @param harvest.year Int that for the harvest year that the data are for
 #' @param crop.name Optional param, if specified the single crop will be displayed
-map_yield <- function(d, area.harvested, boundary, strips, harvest.year, crop.name = "") {
+map_yield <- function(data, area.harvested, boundary, strips, harvest.year, crop.name = "") {
   # Clean data
-  d <- d[!(is.na(d$GrainWeightWet) | d$GrainWeightWet==""), ]
+  d <- data[!(is.na(data$GrainWeightWet)), ]
+  d <- droplevels(d)
   if(crop.name != "" && crop.name %in% d$Crop)
   {
     d <- d[(d$Crop == crop.name), ]
@@ -53,12 +54,14 @@ map_yield <- function(d, area.harvested, boundary, strips, harvest.year, crop.na
   plot(boundaryta)
   plot(idwr, col = grey.colors(n = 8, 0, 1), add = T)
   
+  # Set colors
+  graphCols <- c("purple", "chartreuse", "blue", "yellow", "red", "green", "sandybrown")
   # Add points and polygons to figure
-  points(dta, col=c("white", "chartreuse", "blue", "yellow", "red", "green", "sandybrown")[dta$Crop])
+  plot(dta, pch=21, bg=graphCols[dta$Crop], col=graphCols[dta$Crop], cex=0.8, add=T)
   lines(stripsta)
   
   # Print legend
-  legend(x="topright", legend = levels(dta$Crop), col=c("white", "chartreuse", "blue", "yellow", "red", "green", "sandybrown"), pch=1)
+  legend(x="topright", legend = levels(dta$Crop), col=graphCols, pch=1)
   title(paste("Cook East", crop.name, "Yield for HY", harvest.year))
   mtext(paste("Area harvested = ", toString(area.harvested), ", Crop = ", crop.name, " units = g/m2"))
 }
