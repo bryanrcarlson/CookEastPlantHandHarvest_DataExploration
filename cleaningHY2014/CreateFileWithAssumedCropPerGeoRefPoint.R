@@ -9,9 +9,14 @@ library(jsonlite)
 library(spatialEco)
 
 #y <- read.csv("Input/HY2014GB_aggregate_all_data_171122.csv")
-refPoints <- geojson_read("Input/CookEast_GeoreferencePoints_171117.json", what = "sp")
+date.today <- format(Sys.Date(), "%y%m%d")
+refPoints <- geojson_read(
+    paste("Input/CookEast_GeoreferencePoints_",
+        date.today,
+        ".json", sep = ""),
+    what = "sp")
 
-# Convert csv gain mass data to spatial points and specify the datum
+# Get dataframe
 df <- refPoints@data
 
 # Set crops - this is based on Y2014 in Input/CAF_strips.shp
@@ -41,4 +46,10 @@ df[df$Strip == 8 & df$Field == "C",]$Crop = "SW"
 
 refPoints@data = df
 
-write.csv(refPoints, "Output/HY2014_Crops.csv")
+write.csv(refPoints,
+          paste(
+            "Output/HY2014_AssumedCropPerGeoRefPoint_",
+            date.today,
+            ".csv",
+            sep = "")
+)
