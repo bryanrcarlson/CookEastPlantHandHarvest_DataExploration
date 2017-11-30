@@ -5,6 +5,7 @@
 # ---- Setup ----
 library(rgdal)
 library(geojsonio)
+library(plyr)
 #library(jsonlite)
 #library(spatialEco)
 
@@ -111,9 +112,43 @@ for (id in 1:max(dfc$ID2.y, na.rm = TRUE)) {
     }
 }
 
-filePath <- paste(
-                  "Output/selectValueTest_",
-                  format(Sys.Date(), "%y%m%d"),
+# Test output to compare selected values with manual selection ----
+#filePath <- paste(
+#                  "Output/selectValueTest_",
+#                  format(Sys.Date(), "%y%m%d"),
+#                  ".csv",
+#                  sep = "")
+#write.csv(dfg, filePath)
+
+# Dump messy file before cleaning
+date.today <- format(Sys.Date(), "%y%m%d")
+filePath.all <- paste(
+                  "Output/selectedDataAllColumns_",
+                  date.today,
                   ".csv",
                   sep = "")
-write.csv(dfg, filePath)
+write.csv(dfg, filePath.all)
+
+# Clean data
+col.keep <- c("Col", "Row2", "BarcodeFinal", "Crop", "TotalGrain.g.",
+              "protein", "moisture", "starch", "gluten", "testWeight",
+              "NOTES", "Notes2", "Notes3", "ID2.y", "coords.x1", "coords.x2")
+dfg.slim <- dfg[, col.keep]
+dfg.slim <- within(dfg.slim, NotesKeep <- paste(NOTES, Notes2, Notes3,
+                        sep = " | "))
+#col.keep$Notes <- paste(dfg.slim$NOTES, dfg.slim$Notes2, dfg.slim$Notes3,
+#                        sep = " | ")
+dfg.slim$NOTES <- NULL
+dfg.slim$Notes2 <- NULL
+dfg.slim$Notes3 <- NULL
+names(dfg.slim) <- c("Column", "Row2", "SampleID", "Crop", "GrainWeightWet",
+      "Protein", "Moisture", "Starch", "WGlutDM", "TestWeight", "ID2",
+      "Longitude", "Latitude", "Notes")
+dfg.slim$FieldID <- "CookEast"
+dfg.slim$Year <- 2014
+filePath.slim <- paste(
+                       "Output/selectedDataSlimColumns_",
+                       date.today,
+                       ".csv",
+                       sep = "")
+write.csv(dfg.slim, filePath.slim, row.names=FALSE)
