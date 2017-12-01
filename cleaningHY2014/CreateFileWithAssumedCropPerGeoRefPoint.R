@@ -10,10 +10,7 @@ library(spatialEco)
 
 #y <- read.csv("Input/HY2014GB_aggregate_all_data_171122.csv")
 date.today <- format(Sys.Date(), "%y%m%d")
-refPoints <- geojson_read(
-    paste("Input/CookEast_GeoreferencePoints_",
-        date.today,
-        ".json", sep = ""),
+refPoints <- geojson_read("Input/CookEast_GeoreferencePoints_171127.json",
     what = "sp")
 
 # Get dataframe
@@ -24,9 +21,9 @@ df$Crop <- NA
 df[df$Strip == 6 & df$Field == "A",]$Crop = "SW"
 df[df$Strip == 5 & df$Field == "A",]$Crop = "SW"
 df[df$Strip == 4 & df$Field == "A",]$Crop = "SL"
-df[df$Strip == 3 & df$Field == "A",]$Crop = "SL"
-df[df$Strip == 2 & df$Field == "A",]$Crop = "SL"
-df[df$Strip == 1 & df$Field == "A",]$Crop = "SL"
+df[df$Strip == 3 & df$Field == "A",]$Crop = "GB"
+df[df$Strip == 2 & df$Field == "A",]$Crop = "GB"
+df[df$Strip == 1 & df$Field == "A",]$Crop = "GB"
 
 df[df$Strip == 6 & df$Field == "B",]$Crop = "WW"
 df[df$Strip == 5 & df$Field == "B",]$Crop = "WW"
@@ -36,7 +33,7 @@ df[df$Strip == 2 & df$Field == "B",]$Crop = "WW"
 df[df$Strip == 1 & df$Field == "B",]$Crop = "WW"
 
 df[df$Strip == 1 & df$Field == "C",]$Crop = "SW"
-df[df$Strip == 2 & df$Field == "C",]$Crop = "SL"
+df[df$Strip == 2 & df$Field == "C",]$Crop = "GB"
 df[df$Strip == 3 & df$Field == "C",]$Crop = "SB"
 df[df$Strip == 4 & df$Field == "C",]$Crop = "WW"
 df[df$Strip == 5 & df$Field == "C",]$Crop = "SW"
