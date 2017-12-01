@@ -20,7 +20,7 @@ df <- refPoints@data
 df$Crop <- NA
 df[df$Strip == 6 & df$Field == "A",]$Crop = "SW"
 df[df$Strip == 5 & df$Field == "A",]$Crop = "SW"
-df[df$Strip == 4 & df$Field == "A",]$Crop = "SL"
+df[df$Strip == 4 & df$Field == "A",]$Crop = "GB"
 df[df$Strip == 3 & df$Field == "A",]$Crop = "GB"
 df[df$Strip == 2 & df$Field == "A",]$Crop = "GB"
 df[df$Strip == 1 & df$Field == "A",]$Crop = "GB"
