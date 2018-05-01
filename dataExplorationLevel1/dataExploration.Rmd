@@ -1,14 +1,15 @@
 ---
 title: "Cook East Hand Harvest Yields | Data Exploration"
 author: "Bryan Carlson"
-date: "October 20, 2017"
-output: 
-  html_document:
-    fig_width: 14
-    fig_height: 9
+date: "April 30, 2018"
+output:
   pdf_document:
-    fig_width: 14
     fig_height: 9
+    fig_width: 14
+  word_document: default
+  html_document:
+    fig_height: 9
+    fig_width: 14
 ---
 
 ```{r knitrsetup, include=FALSE}
@@ -17,133 +18,181 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Set WD, define constants
 ```{r setup}
-setwd("C:\\OneDrive\\OneDrive - Washington State University (email.wsu.edu)\\Projects\\CookEastPlantHandHarvest\\1999-2016\\Working\\R")
-area.harvested <- 2.4384
+library(xlsx)
+setwd("C:\\Dev\\Projects\\CookEastPlantHandHarvest\\R\\dataExplorationLevel1")
 source("graphing-funcs.R")
 
 # Load input polygons
-strips <- readOGR("Working/CookEastStrips2013", "Field_Plan_Final")
+strips <- readOGR("Input/CookEastStrips", "Field_Plan_Final")
 boundary <- readOGR("Input/CookEastArea", "CafCookEastArea")
 
 # Original strips polygon of Cook East has area with no georef points (and no yield), so remove them
 georef.only <- raster::intersect(boundary, strips)
+
+# Read yield data
+yields <- read.xlsx("Input/L1_Aggregated2013-2016_20180417.xlsx", "CalculatedYield")
 ```
 
 ## 2013
 ```{r}
 # Read input data and print summary
 harvest.year <- 2013
-d2013 <- read.csv("Input/HY2013GP_GrainWeightOnly_171020.csv", stringsAsFactors = TRUE)
-summary(d2013)
+d2013 <- yields[yields$HarvestYear == harvest.year,]
+#summary(d2013)
 ```
 
 ### GB
 ```{r}
-summary(d2013[d2013$Crop == "GB", ])
-map_yield(d2013, area.harvested, georef.only, 
+#summary(d2013[d2013$Crop == "GB", ])
+map_yield(d2013, "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(c(5), c(1,2,3,4), NULL, georef.only), 
           harvest.year, "GB")
 ```
 
+\newpage
 ### SB
 ```{r}
-summary(d2013[d2013$Crop == "SB", ])
-map_yield(d2013,  area.harvested, georef.only, 
+#summary(d2013[d2013$Crop == "SB", ])
+map_yield(d2013,  "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(c(6), NULL, NULL, georef.only), 
           harvest.year, "SB")
 ```
 
+\newpage
 ### SW
 ```{r}
-summary(d2013[d2013$Crop == "SW", ])
-map_yield(d2013, area.harvested, georef.only,
+#summary(d2013[d2013$Crop == "SW", ])
+map_yield(d2013, "Yield..bu.ac.", georef.only,
           extract_georef_field_and_strip(c(2,3,4), c(5, 6), NULL, georef.only), 
           harvest.year, "SW")
 ```
 
-
-
+\newpage
 ### WW
 ```{r}
-summary(d2013[d2013$Crop == "WW", ])
-map_yield(d2013, area.harvested, georef.only, 
+#summary(d2013[d2013$Crop == "WW", ])
+map_yield(d2013, "Yield..bu.ac.", georef.only, 
           extract_georef_field_and_strip(c(1), NULL, c(1, 2, 3, 4, 5, 6, 7, 7, 8), georef.only), 
           harvest.year, "WW")
 ```
 
 
-## 2015
+\newpage
+## 2014
 ```{r}
 # Read input data and print summary
-harvest.year <- 2015
-d2015 <- read.csv("Input/HY2015GP_GrainWeightOnly_171020.csv", stringsAsFactors = TRUE)
-summary(d2015)
+harvest.year <- 2014
+d2014 <- yields[yields$HarvestYear == harvest.year,]
 ```
 
 ### GB
 ```{r}
-summary(d2015[d2015$Crop == "GB", ])
-map_yield(d2015, area.harvested, georef.only, 
+map_yield(d2014, "Yield..lb.ac.", georef.only, 
+          extract_georef_field_and_strip(c(1,2,3,4), NULL, c(2), georef.only), 
+          harvest.year, "GB")
+```
+
+\newpage
+### SB
+```{r}
+map_yield(d2014,  "Yield..lb.ac.", georef.only, 
+          extract_georef_field_and_strip(NULL, NULL, c(3), georef.only), 
+          harvest.year, "SB")
+```
+
+\newpage
+### SW
+```{r}
+map_yield(d2014, "Yield..bu.ac.", georef.only,
+          extract_georef_field_and_strip(c(5,6), NULL, c(1,5,6,7,8), georef.only), 
+          harvest.year, "SW")
+```
+
+\newpage
+### WW
+```{r}
+map_yield(d2014, "Yield..bu.ac.", georef.only, 
+          extract_georef_field_and_strip(NULL, c(1, 2, 3, 4, 5, 6), c(4), georef.only), 
+          harvest.year, "WW")
+```
+
+
+\newpage
+## 2015
+```{r}
+# Read input data and print summary
+harvest.year <- 2015
+d2015 <- yields[yields$HarvestYear == harvest.year,]
+#summary(d2015)
+```
+
+### GB
+```{r}
+#summary(d2015[d2015$Crop == "GB", ])
+map_yield(d2015, "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(NULL, c(6), c(1,4,5,6,7,8), georef.only), 
           harvest.year, "GB")
 ```
 
+\newpage
 ### SB
 ```{r}
-summary(d2015[d2015$Crop == "SB", ])
-map_yield(d2015,  area.harvested, georef.only, 
+#summary(d2015[d2015$Crop == "SB", ])
+map_yield(d2015, "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(NULL, c(5), NULL, georef.only), 
           harvest.year, "SB")
 ```
 
+\newpage
 ### SW
 ```{r}
-summary(d2015[d2015$Crop == "SW", ])
-map_yield(d2015, area.harvested, georef.only,
+#summary(d2015[d2015$Crop == "SW", ])
+map_yield(d2015, "Yield..bu.ac.", georef.only,
           extract_georef_field_and_strip(NULL, NULL, c(3), georef.only), 
           harvest.year, "SW")
 ```
 
-
-
+\newpage
 ### WW
 ```{r}
-summary(d2015[d2015$Crop == "WW", ])
-map_yield(d2015, area.harvested, georef.only, 
+#summary(d2015[d2015$Crop == "WW", ])
+map_yield(d2015, "Yield..bu.ac.", georef.only, 
           extract_georef_field_and_strip(c(1,2,3,4,5,6), c(4), NULL, georef.only), 
           harvest.year, "WW")
 ```
 
-
+\newpage
 ### SC
 ```{r}
-summary(d2015[d2015$Crop == "SC", ])
-map_yield(d2015, area.harvested, georef.only, 
+#summary(d2015[d2015$Crop == "SC", ])
+map_yield(d2015, "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(NULL, c(1,2,3), c(2), georef.only), 
           harvest.year, "SC")
 ```
 
+
+\newpage
 ## 2016
 ```{r}
 # Read input data and print summary
 harvest.year <- 2016
-d2016 <- read.csv("Input/HY2016GP_GrainWeightOnly_171020.csv", stringsAsFactors = TRUE)
-summary(d2016)
+d2016 <- yields[yields$HarvestYear == harvest.year,]
+#summary(d2016)
 ```
 
 ### WW
 ```{r}
-summary(d2016[d2016$Crop == "WW", ])
-map_yield(d2016, area.harvested, georef.only, 
+#summary(d2016[d2016$Crop == "WW", ])
+map_yield(d2016, "Yield..bu.ac.", georef.only, 
           extract_georef_field_and_strip(NULL, NULL, c(1,2,3,4,5,6,7,8), georef.only), 
           harvest.year, "WW")
 ```
 
-
+\newpage
 ### SC
 ```{r}
-summary(d2016[d2016$Crop == "SC", ])
-map_yield(d2016, area.harvested, georef.only, 
+#summary(d2016[d2016$Crop == "SC", ])
+map_yield(d2016, "Yield..lb.ac.", georef.only, 
           extract_georef_field_and_strip(c(1,2,3,4,5,6), c(1,2,3,4,5,6), c(1, 2), georef.only), 
           harvest.year, "SC")
 ```

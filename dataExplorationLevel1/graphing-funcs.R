@@ -14,9 +14,9 @@ library(gstat)
 #' @param strips A SpatialPolygonsDataFrame that is composed of one or more strips of which the crops reside
 #' @param harvest.year Int that for the harvest year that the data are for
 #' @param crop.name Optional param, if specified the single crop will be displayed
-map_yield <- function(data, area.harvested, boundary, strips, harvest.year, crop.name = "") {
+map_yield <- function(data, yield.column.name, boundary, strips, harvest.year, crop.name = "") {
   # Clean data
-  d <- data[!(is.na(data$GrainWeightWet)), ]
+  d <- data[!(is.na(data$GrainWeight..g.)), ]
   d <- droplevels(d)
   if(crop.name != "" && crop.name %in% d$Crop)
   {
@@ -24,10 +24,11 @@ map_yield <- function(data, area.harvested, boundary, strips, harvest.year, crop
   }
   
   # Append a column with per area yield
-  d['Yield'] <- d$GrainWeightWet / area.harvested
+  #d['Yield'] <- d$GrainWeightWet / area.harvested
+  d['Yield'] <- d[yield.column.name]
   
   # Convert csv gain mass data to spatial points and specify the datum
-  dsp <- SpatialPoints(d[,6:5], proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  dsp <- SpatialPoints(d[,5:4], proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   dsp <- SpatialPointsDataFrame(dsp, d)
   
   # Project spatial data to UTM Zone 11N
@@ -45,6 +46,7 @@ map_yield <- function(data, area.harvested, boundary, strips, harvest.year, crop
   
   # Rasterize it
   r <- raster(stripsta, res=5)
+  #vr <- rasterize(vca, r, 'Yield')
   vr <- rasterize(vca, r, 'Yield')
   
   # Inverse distance weighted interpolation
@@ -63,7 +65,7 @@ map_yield <- function(data, area.harvested, boundary, strips, harvest.year, crop
   # Print legend
   legend(x="topright", legend = levels(dta$Crop), col=graphCols, pch=1)
   title(paste("Cook East", crop.name, "Yield for HY", harvest.year))
-  mtext(paste("Area harvested = ", toString(area.harvested), ", Crop = ", crop.name, " units = g/m2"))
+  mtext(paste("Area harvested = ", toString(d$Area..m2.[1]), ", Crop = ", crop.name, " yield column = ", yield.column.name))
 }
 
 #' Extracts polygons that correspond to specified fields and strips
