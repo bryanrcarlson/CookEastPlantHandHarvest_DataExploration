@@ -3,11 +3,11 @@ title: "Cook East Hand Harvest Yields | Data Exploration"
 author: "Bryan Carlson"
 date: "April 30, 2018"
 output:
+  #html_document:
+    #fig_height: 9
+    #fig_width: 14
+  #word_document: default
   pdf_document:
-    fig_height: 9
-    fig_width: 14
-  word_document: default
-  html_document:
     fig_height: 9
     fig_width: 14
 ---
@@ -30,7 +30,8 @@ boundary <- readOGR("Input/CookEastArea", "CafCookEastArea")
 georef.only <- raster::intersect(boundary, strips)
 
 # Read yield data
-yields <- read.xlsx("Input/L1_Aggregated2013-2016_20180417.xlsx", "CalculatedYield")
+yields <- read.xlsx("Input/L1_Aggregated2013-2016_20180417.xlsx", "CalculatedYield", colClasses = c("numeric", "character", "character", rep("numeric", 14), "character"))
+#
 ```
 
 ## 2013

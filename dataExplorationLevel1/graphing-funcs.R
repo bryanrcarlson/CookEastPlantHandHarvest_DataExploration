@@ -46,7 +46,6 @@ map_yield <- function(data, yield.column.name, boundary, strips, harvest.year, c
   
   # Rasterize it
   r <- raster(stripsta, res=5)
-  #vr <- rasterize(vca, r, 'Yield')
   vr <- rasterize(vca, r, 'Yield')
   
   # Inverse distance weighted interpolation
