@@ -6,5 +6,3 @@ rmarkdown::render('dataExploration.Rmd',
                       format="%Y%m%d"), 
                     '.pdf', 
                     sep=''))
-
-

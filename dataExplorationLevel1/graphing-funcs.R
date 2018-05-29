@@ -6,6 +6,7 @@ library(sp)
 library(rgdal)
 library(dismo)
 library(gstat)
+library(calibrate)
 
 #' Creates a IDW map of yield values from grain weight
 #' @param data A dataframe with grain mass data in WGS84 datum and columns: FieldID	Column	Row2	ID2	Latitude	Longitude	Year	SampleID	Crop	GrainWeightWet
@@ -59,6 +60,8 @@ map_yield <- function(data, yield.column.name, boundary, strips, harvest.year, c
   graphCols <- c("purple", "chartreuse", "blue", "yellow", "red", "green", "sandybrown")
   # Add points and polygons to figure
   plot(dta, pch=21, bg=graphCols[dta$Crop], col=graphCols[dta$Crop], cex=0.8, add=T)
+  textxy(dta$Longitude, dta$Latitude, dta$ID2, cex = 0.8)
+  
   lines(stripsta)
   
   # Print legend
